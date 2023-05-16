@@ -26,18 +26,14 @@
             </when>
         </conditional>
         <param name="outfmt" type="select" label="Output file format">
-          <option value="gmsh">Gmsh MSH format</option>
-          <option value="dolfin-xml">DOLFIN XML format</option>
-          <option value="vtk">VTK Binary format</option>
+          <option value="xdmf">XDMF output file format</option>
         </param>
     </inputs>
     <outputs>
-    <data format="vtkbinary" name="outfile" label="Mesh output file">
-        <change_format>
-            <when input="outfmt" value="gmsh" format="gmsh.msh" />
-            <when input="outfmt" value="dolfin-xml" format="xml" />
-        </change_format>
-    </data>
+        <data format="xml" name="outfile" label="XDMF output file" />
+        <data name="outfile_h5" label="HDF5 output file" >
+            <discover_datasets pattern=".*\.h5" ext="h5" visible="true" />
+        </data>
     </outputs>
     <help><![CDATA[
 usage: meshio convert [-h] [--ascii] [--float-format FLOAT_FORMAT] [--sets-to-int-data] [--int-data-to-sets] infile outfile
