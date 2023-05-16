@@ -1,0 +1,23 @@
+<tool id="gmsh" name="Gmsh mesh generator" version="0.1.0+galaxy0" python_template_version="3.5" profile="21.05">
+    <requirements>
+        <requirement type="package" version="4.6.0">gmsh</requirement>
+    </requirements>
+    <version_command><![CDATA[
+        gmsh -version
+    ]]></version_command>
+    <command detect_errors="exit_code"><![CDATA[
+        cp '$input1' ./input.geo && gmsh -2 -bin -format msh -o '$output1' -setnumber 'domain_size' $domain_size ./input.geo
+    ]]></command>
+    <inputs>
+        <param type="data" name="input1" format="gmsh.geo" label="Gmsh geo file" />
+        <param name="domain_size" type="float" label="The size of the square domain"
+               value="2.0" min="1.0" max="10.0" />
+    </inputs>
+    <outputs>
+        <data name="output1" format="gmsh.msh" label="Gmsh mesh file" />
+    </outputs>
+    <help><![CDATA[
+Gmsh, a 3D mesh generator with pre- and post-processing facilities
+Copyright (C) 1997-2022 C. Geuzaine and J.-F. Remacle
+    ]]></help>
+</tool>

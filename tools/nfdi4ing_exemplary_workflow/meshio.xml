@@ -1,0 +1,65 @@
+<tool id="meshio" name="Meshio: Convert mesh files" version="0.1.0+galaxy0" python_template_version="3.5" profile="21.05">
+    <requirements>
+        <requirement type="package" version="5.0.5">meshio</requirement>
+    </requirements>
+    <version_command><![CDATA[
+        meshio --version
+    ]]></version_command>
+    <command detect_errors="exit_code"><![CDATA[
+        meshio convert --input-format '${input.fmt}' --output-format '${outfmt}' '${input.infile}' '${outfile}'
+    ]]></command>
+    <inputs>
+        <conditional name="input">
+            <param name="fmt" type="select" label="Input file format">
+              <option value="gmsh">Gmsh MSH format</option>
+              <option value="dolfin-xml">DOLFIN XML format</option>
+              <option value="vtk">VTK Binary format</option>
+            </param>
+            <when value="gmsh">
+                <param type="data" name="infile" format="gmsh.msh" label="Gmsh mesh file" />
+            </when>
+            <when value="dolfin-xml">
+                <param type="data" name="infile" format="xml" label="Dolfin xml file" />
+            </when>
+            <when value="vtk">
+                <param type="data" name="infile" format="vtkbinary" label="VTK Binary file" />
+            </when>
+        </conditional>
+        <param name="outfmt" type="select" label="Output file format">
+          <option value="gmsh">Gmsh MSH format</option>
+          <option value="dolfin-xml">DOLFIN XML format</option>
+          <option value="vtk">VTK Binary format</option>
+        </param>
+    </inputs>
+    <outputs>
+    <data format="vtkbinary" name="outfile" label="Mesh output file">
+        <change_format>
+            <when input="outfmt" value="gmsh" format="gmsh.msh" />
+            <when input="outfmt" value="dolfin-xml" format="xml" />
+        </change_format>
+    </data>
+    </outputs>
+    <help><![CDATA[
+usage: meshio convert [-h] [--ascii] [--float-format FLOAT_FORMAT] [--sets-to-int-data] [--int-data-to-sets] infile outfile
+
+positional arguments:
+    infile
+        mesh file to be read from
+    outfile
+        mesh file to be written to
+
+options:
+  -h, --help            show this help message and exit
+  --ascii, -a           write in ASCII format variant (where applicable, default:
+                        binary)
+  --float-format FLOAT_FORMAT, -f FLOAT_FORMAT
+                        float format used in output ASCII files (default: .16e)
+  --sets-to-int-data, -s
+                        if possible, convert sets to integer data (useful if the output
+                        type does not support sets)
+  --int-data-to-sets, -d
+                        if possible, convert integer data to sets (useful if the output
+                        type does not support integer data)
+
+    ]]></help>
+</tool>
