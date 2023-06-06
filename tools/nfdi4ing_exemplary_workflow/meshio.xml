@@ -6,7 +6,7 @@
         meshio --version
     ]]></version_command>
     <command detect_errors="exit_code"><![CDATA[
-        meshio convert --input-format '${input.fmt}' --output-format '${outfmt}' '${input.infile}' '${outfile}'
+        meshio convert --input-format '${input.fmt}' --output-format '${outfmt}' '${input.infile}' ./mesh.${outfmt}
     ]]></command>
     <inputs>
         <conditional name="input">
@@ -30,9 +30,17 @@
         </param>
     </inputs>
     <outputs>
-        <data format="xml" name="outfile" label="XDMF output file" />
+        <!-- <data name="outfile" label="XDMF output file" > -->
+        <!--     <discover_datasets pattern=".*\.xdmf" visible="true" assign_primary_output="true" /> -->
+        <!-- </data> -->
+        <data name="outfile_xdmf" label="XDMF output file" >
+            <discover_datasets pattern="(?P&lt;designation&gt;.+)\.xdmf" visible="true" assign_primary_output="true" />
+        </data>
+        <!-- <data name="outfile_h5" label="HDF5 output file" > -->
+        <!--     <discover_datasets pattern=".*\.h5" ext="h5" visible="true" assign_primary_output="true" /> -->
+        <!-- </data> -->
         <data name="outfile_h5" label="HDF5 output file" >
-            <discover_datasets pattern=".*\.h5" ext="h5" visible="true" />
+            <discover_datasets pattern="(?P&lt;designation&gt;.+)\.h5" visible="true" assign_primary_output="true" />
         </data>
     </outputs>
     <help><![CDATA[
