@@ -6,7 +6,8 @@
         gmsh -version
     ]]></version_command>
     <command detect_errors="exit_code"><![CDATA[
-        cp '$input1' ./input.geo && gmsh -2 -bin -format msh -o '$output1' -setnumber 'domain_size' $domain_size ./input.geo
+        cp '$input1' ./input.geo && 
+        gmsh -2 -bin -format msh -o '$output1' -setnumber 'domain_size' $domain_size ./input.geo
     ]]></command>
     <inputs>
         <param type="data" name="input1" format="gmsh.geo" label="Gmsh geo file" />
